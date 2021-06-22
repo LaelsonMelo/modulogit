@@ -36,13 +36,25 @@ def chama_meus_objetivos(id ):
     MEUS_OBJETIVOS.B_Sair.clicked.connect(chama_login)
 #-----------------------------------------------------------------------------------------------------------------
 def chama_cad_objetivo():
+    LOGIN.close()
     Perfil.close()
-    CADASTRAR_OBEJTIVOS.show()
+    CADASTRAR.close()
+    EDITAR_OBJETIVO.close()
+    DADOS_CONTA.close()
+    EDITAR_USER.close()
+    ICAD_ASSUNTO.close()
+    ICAD_OBJETIVO.close()
+    ICAD_CHAVE.close()
+    MENSAGEM_CAD.close()
+    MENSAGEM_CAD_2.close()
+    MEUS_OBJETIVOS.close()
+    ICAD_MATERIA.show()
 
     #BOTOES NA TELA CADASTRAR OBJETIVOS
-    CADASTRAR_OBEJTIVOS.B_MeusObjetivos.clicked.connect(chama_meus_objetivos)
-    CADASTRAR_OBEJTIVOS.B_Conf_Conta.clicked.connect(chama_dados_conta)
-    CADASTRAR_OBEJTIVOS.B_Sair.clicked.connect(chama_login)
+    ICAD_MATERIA.B_MeusObjetivos.clicked.connect(chama_meus_objetivos)
+    ICAD_MATERIA.B_Conf_Conta.clicked.connect(chama_dados_conta)
+    ICAD_MATERIA.B_Sair.clicked.connect(chama_login)
+    ICAD_MATERIA.proximo.clicked.connect(chama_assunto)
 
     #CADASTRAR_OBEJTIVOS.B_cadastrar.clicked.connect(chama_login)
 #-----------------------------------------------------------------------------------------------------------
@@ -333,8 +345,89 @@ def chama_assunto():
     ICAD_ASSUNTO.B_MeusObjetivos.clicked.connect(chama_meus_objetivos)
     ICAD_ASSUNTO.B_Conf_Conta.clicked.connect(chama_dados_conta)
     ICAD_ASSUNTO.B_Sair.clicked.connect(chama_login)
-    ICAD_ASSUNTO.proximo.clicked.connect(chama_objetivo)
-#
+    #ICAD_ASSUNTO.proximo.clicked.connect(chama_objetivo)
+
+def chama_chave():
+    Perfil.close()
+    LOGIN.close()
+    CADASTRAR.close()
+    EDITAR_OBJETIVO.close()
+    DADOS_CONTA.close()
+    EDITAR_USER.close()
+    ICAD_ASSUNTO.close()
+    ICAD_OBJETIVO.close()
+    MENSAGEM_CAD.close()
+    MENSAGEM_CAD_2.close()
+    MEUS_OBJETIVOS.close()
+    ICAD_MATERIA.close()
+    ICAD_CHAVE.show()
+
+    ICAD_CHAVE.C_chave.setText("")
+
+    global recebendo_objetivo
+    recebendo_objetivo=ICAD_OBJETIVO.C_objetivo.text()
+    COMANDO_PEGAR_ID_ASSUNTO="SELECT id FROM assunto WHERE id_aluno='"+id_global+"' AND nome='"+recebendo_assunto+"' "
+    cursor=conexão.cursor()
+    cursor.execute(COMANDO_PEGAR_ID_ASSUNTO)
+    id_assunto=cursor.fetchall()
+    str_id_assunto=str(id_assunto[0][0])
+
+    COMANDOSQL="INSERT INTO objetivo(nome,id_aluno,id_materia,id_assunto) VALUES ('"+recebendo_objetivo+"', '"+id_global+"','"+str_id_materia+"','"+str_id_assunto+"')"
+    try:
+        cursor=conexão.cursor()
+        cursor.execute(COMANDOSQL) 
+        conexão.commit()
+        cursor.close()
+        print("Inserido objetivo")
+    except:
+        print("erro")
+
+
+    #BOTOES NA TELA DE CADASTRAR CHAVE
+    ICAD_CHAVE.B_MeusObjetivos.clicked.connect(chama_meus_objetivos)
+    ICAD_CHAVE.B_Conf_Conta.clicked.connect(chama_dados_conta)
+    ICAD_CHAVE.B_Sair.clicked.connect(chama_login)
+    ICAD_CHAVE.proximo.clicked.connect(mensagem)
+
+def mensagem():
+    Perfil.close()
+    LOGIN.close()
+    CADASTRAR.close()
+    EDITAR_OBJETIVO.close()
+    DADOS_CONTA.close()
+    EDITAR_USER.close()
+    ICAD_ASSUNTO.close()
+    ICAD_OBJETIVO.close()
+    ICAD_CHAVE.close()
+    MENSAGEM_CAD_2.close()
+    MEUS_OBJETIVOS.close()
+    ICAD_MATERIA.close()
+    MENSAGEM_CAD.show()
+    global recebendo_chave
+    recebendo_chave=ICAD_CHAVE.C_chave.text()
+    COMANDO_PEGAR_ID_OBJETIVO="SELECT id FROM objetivo WHERE id_aluno='"+id_global+"' AND nome='"+recebendo_objetivo+"' "
+    cursor=conexão.cursor()
+    cursor.execute(COMANDO_PEGAR_ID_OBJETIVO)
+    id_objetivo=cursor.fetchall()
+    str_id_objetivo=str(id_objetivo[0][0])
+
+
+    COMANDOSQL="INSERT INTO resultado_chave(nome,id_aluno) VALUES ('"+recebendo_chave+"', '"+id_global+"')"
+    try:
+        cursor=conexão.cursor()
+        cursor.execute(COMANDOSQL) 
+        conexão.commit()
+        cursor.close()
+        print("Inserido resultado chave")
+    except:
+        print("erro")
+
+
+    #BOTOES NA TELA DE MENSAGEM
+    MENSAGEM_CAD.B_MeusObjetivos.clicked.connect(chama_meus_objetivos)
+    MENSAGEM_CAD.B_Conf_Conta.clicked.connect(chama_dados_conta)
+    MENSAGEM_CAD.B_Sair.clicked.connect(chama_login)
+   # MENSAGEM_CAD.proximo.clicked.connect(concluindo)
 #
 #
 #
