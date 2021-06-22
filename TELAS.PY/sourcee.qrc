@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="img">
+    <file>EDITAR.png</file>
+    <file>LIXEIRA.png</file>
+    <file>USUARIO.png</file>
+  </qresource>
+</RCC>
